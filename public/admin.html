@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Studio — Admin Customizer</title>
+  <meta name="theme-color" content="#3b0f1a" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --maroon-dark: #3b0f1a;
+      --maroon-main: #5e1929;
+      --rose-primary: #e6395e;
+      --rose-pale: #fff0f3;
+      --gold-accent: #d4a359;
+      --bg: #faf4ed;
+      --card-bg: #ffffff;
+      --text: #2c1a1f;
+      --border: #e8d0d7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--maroon-dark);
+      color: #fff;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-view-site {
+      background: var(--rose-primary);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .btn-view-site:hover {
+      background: #c22749;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      margin: 30px auto;
+      padding: 0 20px;
+      flex-grow: 1;
+    }
+
+    .login-box {
+      background: var(--card-bg);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      padding: 40px;
+      max-width: 420px;
+      margin: 60px auto;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(94, 25, 41, 0.08);
+    }
+
+    .login-box h2 {
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 8px;
+      color: var(--maroon-dark);
+    }
+
+    .login-box p {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 24px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+      font-family: inherit;
+      margin-bottom: 18px;
+    }
+
+    .input-field:focus {
+      border-color: var(--rose-primary);
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, var(--rose-primary), var(--maroon-main));
+      color: #fff;
+      border: none;
+      padding: 13px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(230, 57, 94, 0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .dashboard {
+      display: none;
+    }
+
+    .dashboard.active {
+      display: block;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(94, 25, 41, 0.04);
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--maroon-main);
+      font-family: 'Playfair Display', serif;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .settings-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 18px rgba(94, 25, 41, 0.04);
+    }
+
+    .settings-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--maroon-dark);
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--rose-pale);
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--maroon-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-group textarea {
+      width: 100%;
+      min-height: 90px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      resize: vertical;
+      outline: none;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--maroon-dark);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      display: none;
+      z-index: 10000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🎂 Birthday Studio — Admin</h1>
+    <a href="./index.html" class="btn-view-site">View Live Card ↗</a>
+  </header>
+
+  <div class="container">
+
+    <!-- Login Area -->
+    <div class="login-box" id="login-box">
+      <div style="font-size: 40px; margin-bottom: 12px;">🔐</div>
+      <h2>Admin Login</h2>
+      <p>Enter your secret Admin PIN to customize this birthday experience.</p>
+      <input type="password" class="input-field" id="admin-pin-input" placeholder="Default: admin123" />
+      <button type="button" class="btn-primary" id="btn-admin-login">Unlock Studio</button>
+    </div>
+
+    <!-- Dashboard Area -->
+    <div class="dashboard" id="dashboard">
+
+      <!-- Stats Bar -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="stat-wishes">0</div>
+          <div class="stat-label">Guestbook Wishes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-likes">0</div>
+          <div class="stat-label">Love Reactions</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-games">0</div>
+          <div class="stat-label">Minigames Played</div>
+        </div>
+      </div>
+
+      <!-- General Settings -->
+      <div class="settings-card">
+        <h3>✨ General Configuration</h3>
+
+        <div class="form-group">
+          <label>Secret Passcode (6 digits for Lock Screen)</label>
+          <input type="text" class="input-field" id="cfg-passcode" placeholder="120800" maxlength="6" />
+        </div>
+
+        <div class="form-group">
+          <label>Recipient Name / Nickname</label>
+          <input type="text" class="input-field" id="cfg-recipient-name" placeholder="Princess" />
+        </div>
+
+        <div class="form-group">
+          <label>Header Subtitle</label>
+          <input type="text" class="input-field" id="cfg-header-subtitle" placeholder="to my favourite person ❤️" />
+        </div>
+
+        <div class="form-group">
+          <label>Top POV Banner Text</label>
+          <input type="text" class="input-field" id="cfg-pov-title" placeholder="POV : TOMORROW IS HER BIRTHDAY ♡" />
+        </div>
+      </div>
+
+      <!-- Love Letters -->
+      <div class="settings-card">
+        <h3>💌 Love Letters</h3>
+
+        <div class="form-group">
+          <label>Letter 1 (Salutation & Body)</label>
+          <input type="text" class="input-field" id="cfg-letter1-salutation" placeholder="My dearest," style="margin-bottom:8px;" />
+          <textarea id="cfg-letter1-body" placeholder="Letter body..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Letter 2 (Salutation & Body)</label>
+          <input type="text" class="input-field" id="cfg-letter2-salutation" placeholder="Dearest," style="margin-bottom:8px;" />
+          <textarea id="cfg-letter2-body" placeholder="Letter body..."></textarea>
+        </div>
+      </div>
+
+      <!-- Story Milestones -->
+      <div class="settings-card">
+        <h3>⏳ Our Story Milestones</h3>
+
+        <div class="form-group">
+          <label>Milestone 1 (2023 - First Meeting)</label>
+          <textarea id="cfg-milestone1" placeholder="Description..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Milestone 2 (2024 - Best Memories)</label>
+          <textarea id="cfg-milestone2" placeholder="Description..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Milestone 3 (2025 - Today)</label>
+          <textarea id="cfg-milestone3" placeholder="Description..."></textarea>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 60px; display: flex; gap: 14px;">
+        <button type="button" class="btn-primary" id="btn-save-settings" style="padding:16px; font-size:16px; flex: 2;">
+          💾 Save All Changes
+        </button>
+        <button type="button" class="btn-primary" id="btn-reset-defaults" style="padding:16px; font-size:14px; background: #87283e; flex: 1;">
+          ↺ Reset Defaults
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast">Changes saved successfully! ✨</div>
+
+  <script>
+    let currentAdminPin = '';
+    let currentConfig = {};
+
+    const loginBox = document.getElementById('login-box');
+    const dashboard = document.getElementById('dashboard');
+    const pinInput = document.getElementById('admin-pin-input');
+    const loginBtn = document.getElementById('btn-admin-login');
+    const saveBtn = document.getElementById('btn-save-settings');
+    const resetBtn = document.getElementById('btn-reset-defaults');
+    const toast = document.getElementById('toast');
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    async function fetchStats() {
+      try {
+        const res = await fetch('/api/stats');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.stats) {
+            document.getElementById('stat-wishes').textContent = data.stats.wishesCount;
+            document.getElementById('stat-likes').textContent = data.stats.totalLikes;
+            document.getElementById('stat-games').textContent = data.stats.gamesPlayed;
+            return;
+          }
+        }
+      } catch (err) {}
+
+      // Fallback for static mode
+      try {
+        const localWishes = JSON.parse(localStorage.getItem('bday_local_wishes') || '[]');
+        document.getElementById('stat-wishes').textContent = localWishes.length || 3;
+        const totalLikes = localWishes.reduce((sum, item) => sum + (item.likes || 0), 16);
+        document.getElementById('stat-likes').textContent = totalLikes;
+      } catch (e) {}
+    }
+
+    async function loadConfig() {
+      // 1. Check local storage override first
+      try {
+        const local = localStorage.getItem('bday_config_override');
+        if (local) currentConfig = JSON.parse(local);
+      } catch (e) {}
+
+      // 2. Try fetching server API
+      try {
+        const res = await fetch('/api/config');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.config) {
+            currentConfig = { ...currentConfig, ...data.config };
+          }
+        }
+      } catch (err) {}
+
+      document.getElementById('cfg-passcode').value = currentConfig.passcode || '120800';
+      document.getElementById('cfg-recipient-name').value = currentConfig.recipient_name || 'Princess';
+      document.getElementById('cfg-header-subtitle').value = currentConfig.header_subtitle || 'to my favourite person ❤️';
+      document.getElementById('cfg-pov-title').value = currentConfig.pov_title || 'POV : TOMORROW IS HER BIRTHDAY ♡';
+
+      if (currentConfig.letters && currentConfig.letters.length > 0) {
+        document.getElementById('cfg-letter1-salutation').value = currentConfig.letters[0]?.salutation || 'My dearest,';
+        document.getElementById('cfg-letter1-body').value = currentConfig.letters[0]?.body || 'On this special day, I want you to know that every moment I\'ve spent with you has been the greatest gift of my life. You laugh like sunshine sounds, and you make the whole world feel kinder just by being in it. Happy Birthday, my favourite person. ❤️';
+        if (currentConfig.letters.length > 1) {
+          document.getElementById('cfg-letter2-salutation').value = currentConfig.letters[1]?.salutation || 'Dearest,';
+          document.getElementById('cfg-letter2-body').value = currentConfig.letters[1]?.body || 'If I could collect every star in the night sky to spell out how much you mean to me, the universe still wouldn\'t be big enough. Thank you for filling my days with warmth and my heart with peace.';
+        }
+      }
+
+      if (currentConfig.timeline && currentConfig.timeline.length >= 3) {
+        document.getElementById('cfg-milestone1').value = currentConfig.timeline[0]?.desc || 'The universe decided two hearts should find each other, and somehow, they did.';
+        document.getElementById('cfg-milestone2').value = currentConfig.timeline[1]?.desc || 'A year of laughter, late nights, small adventures, and moments so beautiful they deserve their own constellation.';
+        document.getElementById('cfg-milestone3').value = currentConfig.timeline[2]?.desc || 'Happy Birthday, my favourite person. Here we are, another chapter written together.';
+      }
+    }
+
+    loginBtn.addEventListener('click', () => {
+      const pin = pinInput.value.trim();
+      if (!pin) return;
+      currentAdminPin = pin;
+      loginBox.style.display = 'none';
+      dashboard.classList.add('active');
+      fetchStats();
+      loadConfig();
+    });
+
+    pinInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loginBtn.click();
+    });
+
+    saveBtn.addEventListener('click', async () => {
+      const updates = {
+        passcode: document.getElementById('cfg-passcode').value.trim() || '120800',
+        recipient_name: document.getElementById('cfg-recipient-name').value.trim() || 'Princess',
+        header_subtitle: document.getElementById('cfg-header-subtitle').value.trim() || 'to my favourite person ❤️',
+        pov_title: document.getElementById('cfg-pov-title').value.trim() || 'POV : TOMORROW IS HER BIRTHDAY ♡',
+        letters: [
+          {
+            id: 1,
+            title: "A letter from the heart",
+            salutation: document.getElementById('cfg-letter1-salutation').value,
+            body: document.getElementById('cfg-letter1-body').value
+          },
+          {
+            id: 2,
+            title: "Underneath the same sky",
+            salutation: document.getElementById('cfg-letter2-salutation').value,
+            body: document.getElementById('cfg-letter2-body').value
+          }
+        ],
+        timeline: [
+          { year: "2023 ❤️", title: "First Meeting", desc: document.getElementById('cfg-milestone1').value },
+          { year: "2024 📸", title: "Best Memories", desc: document.getElementById('cfg-milestone2').value },
+          { year: "2025 ✨", title: "Today", desc: document.getElementById('cfg-milestone3').value }
+        ]
+      };
+
+      // Always save to LocalStorage so static GitHub Pages retains customizations
+      try {
+        localStorage.setItem('bday_config_override', JSON.stringify(updates));
+      } catch (e) {}
+
+      // Try server API if running backend
+      let serverSaved = false;
+      try {
+        const res = await fetch('/api/config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            admin_pin: currentAdminPin,
+            updates
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success) serverSaved = true;
+        }
+      } catch (err) {}
+
+      showToast(serverSaved ? 'Settings saved to server & browser! ✨' : 'Settings saved to browser! ✨');
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (confirm('Reset all customizations to default?')) {
+          localStorage.removeItem('bday_config_override');
+          localStorage.removeItem('bday_local_wishes');
+          loadConfig();
+          showToast('Reset to defaults ✨');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

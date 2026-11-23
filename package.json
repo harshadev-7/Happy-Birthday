@@ -1,0 +1,20 @@
+{
+  "name": "fullstack-birthday-wishes",
+  "version": "1.0.0",
+  "description": "Fullstack Interactive Birthday Wishes Web Application",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js"
+  },
+  "keywords": [
+    "birthday",
+    "fullstack",
+    "interactive",
+    "wishes",
+    "animation"
+  ],
+  "author": "",
+  "license": "MIT"
+}
