@@ -395,7 +395,19 @@
       // 1. Check local storage override first
       try {
         const local = localStorage.getItem('bday_config_override');
-        if (local) currentConfig = JSON.parse(local);
+        if (local) {
+          const parsed = JSON.parse(local);
+          if (parsed.timeline && Array.isArray(parsed.timeline)) {
+            const defaultYears = ["2024 ❤️", "2025 📸", "2026 ✨"];
+            parsed.timeline.forEach((item, i) => {
+              if (item.year && (item.year.includes('2023') || (i === 1 && item.year.includes('2024')) || (i === 2 && item.year.includes('2025')))) {
+                item.year = defaultYears[i] || item.year;
+              }
+            });
+            localStorage.setItem('bday_config_override', JSON.stringify(parsed));
+          }
+          currentConfig = { ...currentConfig, ...parsed };
+        }
       } catch (e) {}
 
       // 2. Try fetching server API

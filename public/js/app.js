@@ -112,6 +112,16 @@ async function loadConfig() {
     const local = localStorage.getItem('bday_config_override');
     if (local) {
       const parsed = JSON.parse(local);
+      // Automatically migrate cached timeline years to 2024, 2025, 2026
+      if (parsed.timeline && Array.isArray(parsed.timeline)) {
+        const defaultYears = ["2024 ❤️", "2025 📸", "2026 ✨"];
+        parsed.timeline.forEach((item, i) => {
+          if (item.year && (item.year.includes('2023') || (i === 1 && item.year.includes('2024')) || (i === 2 && item.year.includes('2025')))) {
+            item.year = defaultYears[i] || item.year;
+          }
+        });
+        localStorage.setItem('bday_config_override', JSON.stringify(parsed));
+      }
       appConfig = { ...appConfig, ...parsed };
     }
   } catch (e) {}
@@ -517,13 +527,23 @@ function initTimeline() {
   const milestones = appConfig?.timeline || DEFAULT_CONFIG.timeline;
 
   container.innerHTML = '<div class="timeline-line"></div>';
-  milestones.forEach(m => {
+  const defaultYears = ["2024 ❤️", "2025 📸", "2026 ✨"];
+  milestones.forEach((m, idx) => {
+    let yearText = m.year || defaultYears[idx] || '';
+    if (yearText.includes('2023')) {
+      yearText = defaultYears[idx];
+    } else if (idx === 1 && yearText.includes('2024') && (milestones[0]?.year?.includes('2024') || milestones[0]?.year?.includes('2023'))) {
+      yearText = "2025 📸";
+    } else if (idx === 2 && (yearText.includes('2025') || !yearText.includes('2026'))) {
+      yearText = "2026 ✨";
+    }
+
     const node = document.createElement('div');
     node.className = 'timeline-node';
     node.innerHTML = `
       <div class="timeline-dot"></div>
       <div class="timeline-content-card">
-        <div class="timeline-year">${m.year}</div>
+        <div class="timeline-year">${yearText}</div>
         <div class="timeline-title">${m.title}</div>
         <div class="timeline-desc">${m.desc}</div>
       </div>
