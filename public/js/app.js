@@ -48,8 +48,8 @@ const DEFAULT_CONFIG = {
     { id: 4, title: "No Lie", artist: "Sean Paul ft. Dua Lipa", src: "./media/no_lie.mp3", cover: "./images/cover4.jpg" }
   ],
   timeline: [
-    { year: "2024 ❤️", title: "First Meeting", desc: "The universe decided two hearts should find each other, and somehow, they did. The very first moment felt like a page turning in a story that was always meant to be written." },
-    { year: "2025 📸", title: "Best Memories", desc: "A year of laughter, late nights, small adventures, and moments so beautiful they deserve their own constellation. Every single one is treasured." },
+    { year: "2024 ❤️", title: "First Meeting", desc: "You know that moment in the BCME lab when I first looked into your eyes? I honestly lost myself right then. That is first meet for me with you." },
+    { year: "2025 📸", title: "Best Memories", desc: "And when I pulled your chair toward me in the FSD lab like Nick Jonas did with Priyanka, it wasn't just a filmy move—I just really wanted to be closer to you. I really like you." },
     { year: "2026 ✨", title: "Today", desc: "Happy Birthday, my favourite person. Here we are, another chapter written together. May every day ahead feel as magical as you make me feel." }
   ],
   constellation_memories: [
