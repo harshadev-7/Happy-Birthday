@@ -2,8 +2,10 @@
 import http from 'node:http';
 import { spawn } from 'node:child_process';
 
+const TEST_PORT = 3005;
 const serverProc = spawn('node', ['server/server.js'], {
   cwd: 'd:\\Documents\\Happy birthday\\Bday2',
+  env: { ...process.env, PORT: String(TEST_PORT) },
   stdio: 'inherit'
 });
 
@@ -11,17 +13,18 @@ await new Promise(r => setTimeout(r, 1500));
 
 try {
   console.log('Testing GET / ...');
-  const resRoot = await fetch('http://localhost:3000/');
+  const resRoot = await fetch(`http://localhost:${TEST_PORT}/`);
   console.log('Root Status:', resRoot.status);
 
   console.log('Testing GET /api/config ...');
-  const resConfig = await fetch('http://localhost:3000/api/config');
+  const resConfig = await fetch(`http://localhost:${TEST_PORT}/api/config`);
   const configData = await resConfig.json();
   console.log('Config loaded:', configData.success, 'Recipient:', configData.config?.recipient_name);
+  console.log('Playlist Track 2:', configData.config?.playlist?.[1]?.title, 'by', configData.config?.playlist?.[1]?.artist);
 
   const currentPasscode = configData.config?.passcode || '120800';
   console.log(`Testing POST /api/verify-code (code: ${currentPasscode}) ...`);
-  const resVerify1 = await fetch('http://localhost:3000/api/verify-code', {
+  const resVerify1 = await fetch(`http://localhost:${TEST_PORT}/api/verify-code`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ code: currentPasscode })
@@ -30,7 +33,7 @@ try {
   console.log(`Passcode ${currentPasscode} verified:`, dataVerify1.success);
 
   console.log('Testing POST /api/verify-code (wrong: 999999) ...');
-  const resVerify2 = await fetch('http://localhost:3000/api/verify-code', {
+  const resVerify2 = await fetch(`http://localhost:${TEST_PORT}/api/verify-code`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ code: '999999' })
@@ -39,7 +42,7 @@ try {
   console.log('Passcode 999999 rejected:', !dataVerify2.success);
 
   console.log('Testing POST /api/wishes ...');
-  const resWish = await fetch('http://localhost:3000/api/wishes', {
+  const resWish = await fetch(`http://localhost:${TEST_PORT}/api/wishes`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -53,17 +56,17 @@ try {
   console.log('New wish inserted:', wishData.success, 'ID:', wishData.wish?.id);
 
   console.log('Testing POST /api/wishes/:id/like ...');
-  const resLike = await fetch(`http://localhost:3000/api/wishes/${wishData.wish.id}/like`, { method: 'POST' });
+  const resLike = await fetch(`http://localhost:${TEST_PORT}/api/wishes/${wishData.wish.id}/like`, { method: 'POST' });
   const likeData = await resLike.json();
   console.log('Wish like count updated to:', likeData.likes);
 
   console.log('Testing GET /api/stats ...');
-  const resStats = await fetch('http://localhost:3000/api/stats');
+  const resStats = await fetch(`http://localhost:${TEST_PORT}/api/stats`);
   const statsData = await resStats.json();
   console.log('Stats:', statsData.stats);
 
   console.log('Testing GET /admin ...');
-  const resAdmin = await fetch('http://localhost:3000/admin');
+  const resAdmin = await fetch(`http://localhost:${TEST_PORT}/admin`);
   console.log('Admin Status:', resAdmin.status);
 
   console.log('\n🎉 ALL TESTS PASSED SUCCESSFULLY! 🎉');
