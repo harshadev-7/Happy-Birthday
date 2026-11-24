@@ -43,7 +43,7 @@ const DEFAULT_CONFIG = {
   ],
   playlist: [
     { id: 1, title: "Nee Choopule", artist: "GV Prakash Kumar", src: "./media/nee_choopule.mp3", cover: "./images/cover1.jpg" },
-    { id: 2, title: "Perfect", artist: "Ed Sheeran", src: "https://actions.google.com/sounds/v1/ambiences/soft_piano.ogg", cover: "./images/cover2.jpg" },
+    { id: 2, title: "Love Me Like You Do", artist: "Ellie Goulding", src: "./media/love_me_like_you_do.mp3", cover: "./images/cover2.jpg" },
     { id: 3, title: "I Wanna Be Yours", artist: "Arctic Monkeys", src: "https://actions.google.com/sounds/v1/ambiences/gentle_acoustic.ogg", cover: "./images/cover3.jpg" },
     { id: 4, title: "Under The Influence", artist: "Chris Brown", src: "https://actions.google.com/sounds/v1/ambiences/lofi_warmth.ogg", cover: "./images/cover4.jpg" }
   ],

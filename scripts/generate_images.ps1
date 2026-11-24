@@ -58,7 +58,7 @@ Create-ArtImage (Join-Path $imgDir "gallery4.jpg") 700 700 "Chasing Sunsets" "Go
 Create-ArtImage (Join-Path $imgDir "gallery5.jpg") 700 700 "Radiant Smiles" "Unfiltered happiness" "#654ea3" "#eaafc8" "🧸"
 
 Create-ArtImage (Join-Path $imgDir "cover1.jpg") 400 400 "Nee Choopule" "GV Prakash Kumar" "#4a1521" "#1a0b12" "🎵"
-Create-ArtImage (Join-Path $imgDir "cover2.jpg") 400 400 "Perfect" "Ed Sheeran" "#2b1055" "#7597de" "🎶"
+Create-ArtImage (Join-Path $imgDir "cover2.jpg") 400 400 "Love Me Like You Do" "Ellie Goulding" "#2b1055" "#7597de" "🎶"
 Create-ArtImage (Join-Path $imgDir "cover3.jpg") 400 400 "I Wanna Be Yours" "Arctic Monkeys" "#141E30" "#243B55" "🎧"
 Create-ArtImage (Join-Path $imgDir "cover4.jpg") 400 400 "Under The Influence" "Chris Brown" "#3f2b96" "#e8c" "📀"
 

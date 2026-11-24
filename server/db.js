@@ -151,10 +151,10 @@ export function initDatabase() {
       },
       {
         id: 2,
-        title: "Perfect",
-        artist: "Ed Sheeran",
-        src: "https://actions.google.com/sounds/v1/ambiences/soft_piano.ogg",
-        cover: "/images/cover2.jpg"
+        title: "Love Me Like You Do",
+        artist: "Ellie Goulding",
+        src: "./media/love_me_like_you_do.mp3",
+        cover: "./images/cover2.jpg"
       },
       {
         id: 3,
