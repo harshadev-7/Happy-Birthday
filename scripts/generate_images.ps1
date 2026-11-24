@@ -1,4 +1,4 @@
-﻿Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Drawing
 
 $imgDir = "d:\Documents\Happy birthday\Bday2\public\images"
 if (!(Test-Path $imgDir)) { New-Item -ItemType Directory -Path $imgDir -Force }

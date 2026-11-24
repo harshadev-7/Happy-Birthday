@@ -173,17 +173,17 @@ export function initDatabase() {
     ]),
     timeline: JSON.stringify([
       {
-        year: "2023 ❤️",
+        year: "2024 ❤️",
         title: "First Meeting",
         desc: "The universe decided two hearts should find each other, and somehow, they did. The very first moment felt like a page turning in a story that was always meant to be written."
       },
       {
-        year: "2024 📸",
+        year: "2025 📸",
         title: "Best Memories",
         desc: "A year of laughter, late nights, small adventures, and moments so beautiful they deserve their own constellation. Every single one is treasured."
       },
       {
-        year: "2025 ✨",
+        year: "2026 ✨",
         title: "Today",
         desc: "Happy Birthday, my favourite person. Here we are, another chapter written together. May every day ahead feel as magical as you make me feel."
       }
