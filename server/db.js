@@ -165,10 +165,10 @@ export function initDatabase() {
       },
       {
         id: 4,
-        title: "Under The Influence",
-        artist: "Chris Brown",
-        src: "https://actions.google.com/sounds/v1/ambiences/lofi_warmth.ogg",
-        cover: "/images/cover4.jpg"
+        title: "No Lie",
+        artist: "Sean Paul ft. Dua Lipa",
+        src: "./media/no_lie.mp3",
+        cover: "./images/cover4.jpg"
       }
     ]),
     timeline: JSON.stringify([

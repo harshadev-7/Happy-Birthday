@@ -60,6 +60,6 @@ Create-ArtImage (Join-Path $imgDir "gallery5.jpg") 700 700 "Radiant Smiles" "Unf
 Create-ArtImage (Join-Path $imgDir "cover1.jpg") 400 400 "Nee Choopule" "GV Prakash Kumar" "#4a1521" "#1a0b12" "🎵"
 Create-ArtImage (Join-Path $imgDir "cover2.jpg") 400 400 "Love Me Like You Do" "Ellie Goulding" "#2b1055" "#7597de" "🎶"
 Create-ArtImage (Join-Path $imgDir "cover3.jpg") 400 400 "Tere Vaaste" "Sachin-Jigar" "#141E30" "#243B55" "🎧"
-Create-ArtImage (Join-Path $imgDir "cover4.jpg") 400 400 "Under The Influence" "Chris Brown" "#3f2b96" "#e8c" "📀"
+Create-ArtImage (Join-Path $imgDir "cover4.jpg") 400 400 "No Lie" "Sean Paul ft. Dua Lipa" "#3f2b96" "#e8c" "📀"
 
 Write-Output "Art images generated successfully!"

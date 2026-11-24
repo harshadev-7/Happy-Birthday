@@ -45,7 +45,7 @@ const DEFAULT_CONFIG = {
     { id: 1, title: "Nee Choopule", artist: "GV Prakash Kumar", src: "./media/nee_choopule.mp3", cover: "./images/cover1.jpg" },
     { id: 2, title: "Love Me Like You Do", artist: "Ellie Goulding", src: "./media/love_me_like_you_do.mp3", cover: "./images/cover2.jpg" },
     { id: 3, title: "Tere Vaaste", artist: "Sachin-Jigar & Varun Jain", src: "./media/tere_vaaste.mp3", cover: "./images/cover3.jpg" },
-    { id: 4, title: "Under The Influence", artist: "Chris Brown", src: "https://actions.google.com/sounds/v1/ambiences/lofi_warmth.ogg", cover: "./images/cover4.jpg" }
+    { id: 4, title: "No Lie", artist: "Sean Paul ft. Dua Lipa", src: "./media/no_lie.mp3", cover: "./images/cover4.jpg" }
   ],
   timeline: [
     { year: "2023 ❤️", title: "First Meeting", desc: "The universe decided two hearts should find each other, and somehow, they did. The very first moment felt like a page turning in a story that was always meant to be written." },
