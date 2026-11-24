@@ -19,14 +19,15 @@ try {
   const configData = await resConfig.json();
   console.log('Config loaded:', configData.success, 'Recipient:', configData.config?.recipient_name);
 
-  console.log('Testing POST /api/verify-code (correct: 120800) ...');
+  const currentPasscode = configData.config?.passcode || '120800';
+  console.log(`Testing POST /api/verify-code (code: ${currentPasscode}) ...`);
   const resVerify1 = await fetch('http://localhost:3000/api/verify-code', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code: '120800' })
+    body: JSON.stringify({ code: currentPasscode })
   });
   const dataVerify1 = await resVerify1.json();
-  console.log('Passcode 120800 verified:', dataVerify1.success);
+  console.log(`Passcode ${currentPasscode} verified:`, dataVerify1.success);
 
   console.log('Testing POST /api/verify-code (wrong: 999999) ...');
   const resVerify2 = await fetch('http://localhost:3000/api/verify-code', {

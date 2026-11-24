@@ -144,10 +144,10 @@ export function initDatabase() {
     playlist: JSON.stringify([
       {
         id: 1,
-        title: "Dekha Hazaron Dafa",
-        artist: "Arijit Singh & Palak Muchhal",
-        src: "/media/birthday_video.mp4",
-        cover: "/images/cover1.jpg"
+        title: "Nee Choopule",
+        artist: "GV Prakash Kumar",
+        src: "./media/nee_choopule.mp3",
+        cover: "./images/cover1.jpg"
       },
       {
         id: 2,
