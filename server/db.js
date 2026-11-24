@@ -158,10 +158,10 @@ export function initDatabase() {
       },
       {
         id: 3,
-        title: "I Wanna Be Yours",
-        artist: "Arctic Monkeys",
-        src: "https://actions.google.com/sounds/v1/ambiences/gentle_acoustic.ogg",
-        cover: "/images/cover3.jpg"
+        title: "Tere Vaaste",
+        artist: "Sachin-Jigar & Varun Jain",
+        src: "./media/tere_vaaste.mp3",
+        cover: "./images/cover3.jpg"
       },
       {
         id: 4,
