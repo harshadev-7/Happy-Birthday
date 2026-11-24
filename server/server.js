@@ -214,6 +214,20 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 200, { success: true, likes: updated ? updated.likes : 0 });
       }
 
+      // 8. DELETE /api/wishes (Clear all wishes)
+      if (req.method === 'DELETE' && pathname === '/api/wishes') {
+        db.prepare('DELETE FROM wishes').run();
+        return sendJson(res, 200, { success: true, message: 'All wishes cleared' });
+      }
+
+      // 9. DELETE /api/wishes/:id (Delete a specific wish)
+      const deleteWishMatch = pathname.match(/^\/api\/wishes\/(\d+)$/);
+      if (req.method === 'DELETE' && deleteWishMatch) {
+        const id = parseInt(deleteWishMatch[1], 10);
+        db.prepare('DELETE FROM wishes WHERE id = ?').run(id);
+        return sendJson(res, 200, { success: true, message: 'Wish deleted' });
+      }
+
       // 8. POST /api/stats/game
       if (req.method === 'POST' && pathname === '/api/stats/game') {
         const body = await parseBody(req);

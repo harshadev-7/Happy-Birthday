@@ -826,11 +826,7 @@ async function initGuestbook() {
 
   let selectedEmoji = '❤️';
 
-  const defaultLocalWishes = [
-    { id: 1, name: 'Alex', message: 'Happy Birthday Princess! May your year ahead be as breathtaking and kind as you are ✨', emoji: '💖', tag: 'Bestie', likes: 5, created_at: new Date().toISOString() },
-    { id: 2, name: 'Sam & Mia', message: 'Wishing you endless smiles, love, and sweet adventures! Have the most wonderful birthday! 🎂🥂', emoji: '🎉', tag: 'Friends', likes: 3, created_at: new Date().toISOString() },
-    { id: 3, name: 'Your Secret Admirer', message: 'You bring a soft glow to everyone around you. Keep shining bright! ❤️', emoji: '🌹', tag: 'Secret', likes: 8, created_at: new Date().toISOString() }
-  ];
+  const defaultLocalWishes = [];
 
   emojiBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -842,6 +838,13 @@ async function initGuestbook() {
 
   async function loadWishes() {
     let wishes = [];
+
+    // Ensure stale sample wishes in localStorage are cleared
+    if (!localStorage.getItem('bday_wishes_cleared_v1')) {
+      localStorage.setItem('bday_local_wishes', JSON.stringify([]));
+      localStorage.setItem('bday_wishes_cleared_v1', 'true');
+    }
+
     try {
       const res = await fetch('/api/wishes');
       if (res.ok) {
@@ -856,9 +859,9 @@ async function initGuestbook() {
       // LocalStorage fallback for GitHub Pages
       try {
         const stored = localStorage.getItem('bday_local_wishes');
-        wishes = stored ? JSON.parse(stored) : defaultLocalWishes;
+        wishes = stored ? JSON.parse(stored) : [];
       } catch (e) {
-        wishes = defaultLocalWishes;
+        wishes = [];
       }
     }
 
@@ -868,6 +871,16 @@ async function initGuestbook() {
   function renderWishesList(wishes) {
     if (!list) return;
     list.innerHTML = '';
+
+    if (!wishes || wishes.length === 0) {
+      list.innerHTML = `
+        <div style="text-align: center; padding: 28px 16px; color: rgba(255, 230, 200, 0.85); font-style: italic; font-size: 14px; background: rgba(0,0,0,0.12); border-radius: 12px; margin-top: 10px;">
+          No wishes yet ✨ Be the first to leave a love note above!
+        </div>
+      `;
+      return;
+    }
+
     wishes.forEach(w => {
       const card = document.createElement('div');
       card.className = 'wish-item-card';
@@ -944,7 +957,7 @@ async function initGuestbook() {
       } catch (err) {
         // Fallback save in LocalStorage
         try {
-          const stored = JSON.parse(localStorage.getItem('bday_local_wishes') || JSON.stringify(defaultLocalWishes));
+          const stored = JSON.parse(localStorage.getItem('bday_local_wishes') || '[]');
           newWishObj.id = Date.now();
           stored.unshift(newWishObj);
           localStorage.setItem('bday_local_wishes', JSON.stringify(stored));

@@ -220,14 +220,6 @@ export function initDatabase() {
     }
   }
 
-  // Seed initial sample wishes if empty
-  const countWishes = db.prepare('SELECT COUNT(*) as count FROM wishes').get();
-  if (countWishes.count === 0) {
-    const insertWish = db.prepare('INSERT INTO wishes (name, message, emoji, tag, likes) VALUES (?, ?, ?, ?, ?)');
-    insertWish.run('Alex', 'Happy Birthday Princess! May your year ahead be as breathtaking and kind as you are ✨', '💖', 'Bestie', 5);
-    insertWish.run('Sam & Mia', 'Wishing you endless smiles, love, and sweet adventures! Have the most wonderful birthday! 🎂🥂', '🎉', 'Friends', 3);
-    insertWish.run('Your Secret Admirer', 'You bring a soft glow to everyone around you. Keep shining bright! ❤️', '🌹', 'Secret', 8);
-  }
-
+  // Guestbook starts clean without placeholder wishes
   return db;
 }

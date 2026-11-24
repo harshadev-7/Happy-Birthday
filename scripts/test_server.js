@@ -65,6 +65,11 @@ try {
   const statsData = await resStats.json();
   console.log('Stats:', statsData.stats);
 
+  console.log('Testing DELETE /api/wishes (clean test wishes) ...');
+  const resDeleteAll = await fetch(`http://localhost:${TEST_PORT}/api/wishes`, { method: 'DELETE' });
+  const deleteData = await resDeleteAll.json();
+  console.log('Wishes cleared:', deleteData.success);
+
   console.log('Testing GET /admin ...');
   const resAdmin = await fetch(`http://localhost:${TEST_PORT}/admin`);
   console.log('Admin Status:', resAdmin.status);
