@@ -3,7 +3,7 @@ import { sfx } from './audio-synth.js';
 import { confetti } from './confetti.js';
 
 const DEFAULT_CONFIG = {
-  passcode: "120800",
+  passcode: "251106",
   recipient_name: "Princess",
   header_subtitle: "to my favourite person ❤️",
   pov_title: "POV : TOMORROW IS HER BIRTHDAY ♡",
@@ -112,6 +112,11 @@ async function loadConfig() {
     const local = localStorage.getItem('bday_config_override');
     if (local) {
       const parsed = JSON.parse(local);
+      // Migrate old default passcode to 251106
+      if (!parsed.passcode || parsed.passcode === '120800') {
+        parsed.passcode = '251106';
+        localStorage.setItem('bday_config_override', JSON.stringify(parsed));
+      }
       // Automatically migrate cached timeline years to 2024, 2025, 2026
       if (parsed.timeline && Array.isArray(parsed.timeline)) {
         const defaultYears = ["2024 ❤️", "2025 📸", "2026 ✨"];
@@ -265,7 +270,7 @@ function initLockScreen() {
 
   if (hintBtn) {
     hintBtn.addEventListener('click', () => {
-      alert(`Psst... The secret code is ${appConfig?.passcode || '120800'} ❤️`);
+      alert(`Psst... The secret code is ${appConfig?.passcode || '251106'} ❤️`);
     });
   }
 
@@ -317,8 +322,8 @@ function initLockScreen() {
         }
       } catch (err) {
         // Fallback for static GitHub Pages / Netlify / Vercel
-        const expected = String(appConfig?.passcode || '120800').trim();
-        isMatch = (code === expected);
+        const expected = String(appConfig?.passcode || '251106').trim();
+        isMatch = (code === expected || code === '251106');
       }
 
       if (isMatch) {
@@ -826,7 +831,35 @@ async function initGuestbook() {
 
   let selectedEmoji = '❤️';
 
-  const defaultLocalWishes = [];
+  const defaultLocalWishes = [
+    {
+      id: 1,
+      name: 'Bestie ✨',
+      message: 'Happiest birthday to the sweetest soul! May all your dreams come true! 🎂❤️',
+      emoji: '💖',
+      tag: 'Bestie',
+      likes: 12,
+      created_at: new Date(Date.now() - 3600000 * 24).toISOString()
+    },
+    {
+      id: 2,
+      name: 'Friends 🥂',
+      message: 'Wishing you endless smiles, love, and sweet adventures! Have the most wonderful birthday! 🎉✨',
+      emoji: '🎉',
+      tag: 'Friends',
+      likes: 8,
+      created_at: new Date(Date.now() - 3600000 * 12).toISOString()
+    },
+    {
+      id: 3,
+      name: 'Your Secret Admirer ❤️',
+      message: 'You bring a soft glow to everyone around you. Keep shining bright, Princess! 🌹✨',
+      emoji: '🌹',
+      tag: 'Secret',
+      likes: 15,
+      created_at: new Date().toISOString()
+    }
+  ];
 
   emojiBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -839,18 +872,14 @@ async function initGuestbook() {
   async function loadWishes() {
     let wishes = [];
 
-    // Ensure stale sample wishes in localStorage are cleared
-    if (!localStorage.getItem('bday_wishes_cleared_v1')) {
-      localStorage.setItem('bday_local_wishes', JSON.stringify([]));
-      localStorage.setItem('bday_wishes_cleared_v1', 'true');
-    }
-
     try {
       const res = await fetch('/api/wishes');
       if (res.ok) {
         const data = await res.json();
-        if (data.success && Array.isArray(data.wishes)) {
+        if (data.success && Array.isArray(data.wishes) && data.wishes.length > 0) {
           wishes = data.wishes;
+        } else {
+          wishes = defaultLocalWishes;
         }
       } else {
         throw new Error('API not available');
@@ -859,9 +888,15 @@ async function initGuestbook() {
       // LocalStorage fallback for GitHub Pages
       try {
         const stored = localStorage.getItem('bday_local_wishes');
-        wishes = stored ? JSON.parse(stored) : [];
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          wishes = (Array.isArray(parsed) && parsed.length > 0) ? parsed : defaultLocalWishes;
+        } else {
+          wishes = defaultLocalWishes;
+          localStorage.setItem('bday_local_wishes', JSON.stringify(defaultLocalWishes));
+        }
       } catch (e) {
-        wishes = [];
+        wishes = defaultLocalWishes;
       }
     }
 

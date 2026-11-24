@@ -37,7 +37,7 @@ export function initDatabase() {
 
   // Default configuration seeding
   const defaultSeeds = {
-    passcode: "120800",
+    passcode: "251106",
     admin_pin: "admin123",
     recipient_name: "Princess",
     header_subtitle: "to my favourite person ❤️",
@@ -220,6 +220,14 @@ export function initDatabase() {
     }
   }
 
-  // Guestbook starts clean without placeholder wishes
+  // Seed initial sample wishes if empty
+  const countWishes = db.prepare('SELECT COUNT(*) as count FROM wishes').get();
+  if (countWishes.count === 0) {
+    const insertWish = db.prepare('INSERT INTO wishes (name, message, emoji, tag, likes) VALUES (?, ?, ?, ?, ?)');
+    insertWish.run('Bestie ✨', 'Happiest birthday to the sweetest soul! May all your dreams come true! 🎂❤️', '💖', 'Bestie', 12);
+    insertWish.run('Friends 🥂', 'Wishing you endless smiles, love, and sweet adventures! Have the most wonderful birthday! 🎉✨', '🎉', 'Friends', 8);
+    insertWish.run('Your Secret Admirer ❤️', 'You bring a soft glow to everyone around you. Keep shining bright, Princess! 🌹✨', '🌹', 'Secret', 15);
+  }
+
   return db;
 }

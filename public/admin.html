@@ -279,7 +279,7 @@
 
         <div class="form-group">
           <label>Secret Passcode (6 digits for Lock Screen)</label>
-          <input type="text" class="input-field" id="cfg-passcode" placeholder="120800" maxlength="6" />
+          <input type="text" class="input-field" id="cfg-passcode" placeholder="251106" maxlength="6" />
         </div>
 
         <div class="form-group">
@@ -433,7 +433,7 @@
         }
       } catch (err) {}
 
-      document.getElementById('cfg-passcode').value = currentConfig.passcode || '120800';
+      document.getElementById('cfg-passcode').value = currentConfig.passcode || '251106';
       document.getElementById('cfg-recipient-name').value = currentConfig.recipient_name || 'Princess';
       document.getElementById('cfg-header-subtitle').value = currentConfig.header_subtitle || 'to my favourite person ❤️';
       document.getElementById('cfg-pov-title').value = currentConfig.pov_title || 'POV : TOMORROW IS HER BIRTHDAY ♡';
@@ -541,7 +541,7 @@
 
     saveBtn.addEventListener('click', async () => {
       const updates = {
-        passcode: document.getElementById('cfg-passcode').value.trim() || '120800',
+        passcode: document.getElementById('cfg-passcode').value.trim() || '251106',
         recipient_name: document.getElementById('cfg-recipient-name').value.trim() || 'Princess',
         header_subtitle: document.getElementById('cfg-header-subtitle').value.trim() || 'to my favourite person ❤️',
         pov_title: document.getElementById('cfg-pov-title').value.trim() || 'POV : TOMORROW IS HER BIRTHDAY ♡',
