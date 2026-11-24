@@ -224,9 +224,9 @@ export function initDatabase() {
   const countWishes = db.prepare('SELECT COUNT(*) as count FROM wishes').get();
   if (countWishes.count === 0) {
     const insertWish = db.prepare('INSERT INTO wishes (name, message, emoji, tag, likes) VALUES (?, ?, ?, ?, ?)');
-    insertWish.run('Bestie ✨', 'Happiest birthday to the sweetest soul! May all your dreams come true! 🎂❤️', '💖', 'Bestie', 12);
-    insertWish.run('Friends 🥂', 'Wishing you endless smiles, love, and sweet adventures! Have the most wonderful birthday! 🎉✨', '🎉', 'Friends', 8);
-    insertWish.run('Your Secret Admirer ❤️', 'You bring a soft glow to everyone around you. Keep shining bright, Princess! 🌹✨', '🌹', 'Secret', 15);
+    insertWish.run('Your Safe Place', 'On your special day, I just want to remind you how deeply loved and appreciated you are. Happy birthday, gorgeous—you deserve the universe.', '💖', 'Safe Place', 14);
+    insertWish.run('Your Future', 'Happy birthday to the woman of my dreams. Every year you get more amazing, and i feel so blessed to walk through life with you.', '❤️', 'Together', 18);
+    insertWish.run('Your Secret Admirer', 'You bring a soft glow to everyone around you. Keep shining bright, Princess! 🌹✨', '🌹', 'Always', 12);
   }
 
   return db;

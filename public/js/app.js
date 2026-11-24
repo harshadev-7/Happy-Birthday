@@ -834,29 +834,29 @@ async function initGuestbook() {
   const defaultLocalWishes = [
     {
       id: 1,
-      name: 'Bestie ✨',
-      message: 'Happiest birthday to the sweetest soul! May all your dreams come true! 🎂❤️',
+      name: 'Your Safe Place',
+      message: 'On your special day, I just want to remind you how deeply loved and appreciated you are. Happy birthday, gorgeous—you deserve the universe.',
       emoji: '💖',
-      tag: 'Bestie',
-      likes: 12,
+      tag: 'Safe Place',
+      likes: 14,
       created_at: new Date(Date.now() - 3600000 * 24).toISOString()
     },
     {
       id: 2,
-      name: 'Friends 🥂',
-      message: 'Wishing you endless smiles, love, and sweet adventures! Have the most wonderful birthday! 🎉✨',
-      emoji: '🎉',
-      tag: 'Friends',
-      likes: 8,
+      name: 'Your Future',
+      message: 'Happy birthday to the woman of my dreams. Every year you get more amazing, and i feel so blessed to walk through life with you.',
+      emoji: '❤️',
+      tag: 'Together',
+      likes: 18,
       created_at: new Date(Date.now() - 3600000 * 12).toISOString()
     },
     {
       id: 3,
-      name: 'Your Secret Admirer ❤️',
+      name: 'Your Secret Admirer',
       message: 'You bring a soft glow to everyone around you. Keep shining bright, Princess! 🌹✨',
       emoji: '🌹',
-      tag: 'Secret',
-      likes: 15,
+      tag: 'Always',
+      likes: 12,
       created_at: new Date().toISOString()
     }
   ];
@@ -889,7 +889,12 @@ async function initGuestbook() {
       try {
         const stored = localStorage.getItem('bday_local_wishes');
         if (stored) {
-          const parsed = JSON.parse(stored);
+          let parsed = JSON.parse(stored);
+          // Auto-migrate if older placeholder wishes are in localStorage
+          if (Array.isArray(parsed) && parsed.some(w => w.name && (w.name.includes('Bestie') || w.name.includes('Friends') || w.name.includes('Sam & Mia')))) {
+            parsed = defaultLocalWishes;
+            localStorage.setItem('bday_local_wishes', JSON.stringify(defaultLocalWishes));
+          }
           wishes = (Array.isArray(parsed) && parsed.length > 0) ? parsed : defaultLocalWishes;
         } else {
           wishes = defaultLocalWishes;
