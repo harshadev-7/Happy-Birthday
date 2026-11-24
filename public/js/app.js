@@ -267,26 +267,55 @@ function initLockScreen() {
   const lockScreen = document.getElementById('lock-screen-section');
   const nightIntro = document.getElementById('cinematic-night-section');
   const hintBtn = document.getElementById('lock-hint-btn');
+  const hintText = document.getElementById('lock-hint-text');
+  const submitBtn = document.getElementById('btn-submit-code');
 
   if (hintBtn) {
     hintBtn.addEventListener('click', () => {
-      alert(`Psst... The secret code is ${appConfig?.passcode || '251106'} ❤️`);
+      const codeStr = appConfig?.passcode || '251106';
+      if (hintText) {
+        hintText.textContent = `Psst... The secret code is ${codeStr} ❤️`;
+        hintText.style.display = 'block';
+      }
+      try {
+        alert(`Psst... The secret code is ${codeStr} ❤️`);
+      } catch (e) {}
+    });
+  }
+
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      checkCode(true);
     });
   }
 
   codeBoxes.forEach((box, index) => {
     box.addEventListener('input', (e) => {
-      const val = e.target.value.replace(/[^0-9]/g, '');
-      box.value = val;
-      if (val && index < codeBoxes.length - 1) {
-        codeBoxes[index + 1].focus();
+      const raw = e.target.value.replace(/[^0-9]/g, '');
+      if (raw.length > 1) {
+        // Multi-digit entry on mobile keyboards (paste / auto-fill)
+        const digits = raw.split('');
+        digits.forEach((d, i) => {
+          if (index + i < codeBoxes.length) {
+            codeBoxes[index + i].value = d;
+          }
+        });
+        const nextIdx = Math.min(index + digits.length, codeBoxes.length - 1);
+        codeBoxes[nextIdx].focus();
+      } else {
+        box.value = raw;
+        if (raw && index < codeBoxes.length - 1) {
+          codeBoxes[index + 1].focus();
+        }
       }
-      checkCode();
+      checkCode(false);
     });
 
     box.addEventListener('keydown', (e) => {
       if (e.key === 'Backspace' && !box.value && index > 0) {
         codeBoxes[index - 1].focus();
+      } else if (e.key === 'Enter') {
+        checkCode(true);
       }
     });
 
@@ -297,33 +326,33 @@ function initLockScreen() {
         paste.split('').slice(0, codeBoxes.length).forEach((char, i) => {
           codeBoxes[i].value = char;
         });
-        checkCode();
+        checkCode(false);
       }
     });
   });
 
-  async function checkCode() {
-    const code = Array.from(codeBoxes).map(b => b.value).join('');
-    if (code.length === codeBoxes.length) {
+  async function checkCode(force = false) {
+    const code = Array.from(codeBoxes).map(b => b.value).join('').trim();
+    if (code.length === codeBoxes.length || (force && code.length > 0)) {
       let isMatch = false;
 
-      // Try API first
-      try {
-        const res = await fetch('/api/verify-code', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code })
-        });
-        if (res.ok) {
-          const data = await res.json();
-          isMatch = data.success;
-        } else {
-          throw new Error('Fallback to local');
-        }
-      } catch (err) {
-        // Fallback for static GitHub Pages / Netlify / Vercel
-        const expected = String(appConfig?.passcode || '251106').trim();
-        isMatch = (code === expected || code === '251106');
+      // Primary check: instantly match 251106, configured passcode, or 120800
+      const expected = String(appConfig?.passcode || '251106').trim();
+      if (code === expected || code === '251106' || code === '120800') {
+        isMatch = true;
+      } else {
+        // Also try server API if running backend
+        try {
+          const res = await fetch('/api/verify-code', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            isMatch = data.success;
+          }
+        } catch (err) {}
       }
 
       if (isMatch) {
